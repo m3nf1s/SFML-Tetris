@@ -5,6 +5,12 @@
 
 int main()
 {
+	FirstSteps();
+	return 0;
+}
+
+void FirstSteps()
+{
 	const uint32_t WIDTH = 800;
 	const uint32_t HEIGHT = 600;
 	const std::string TITLE = "SFML Tetris!";
@@ -69,7 +75,7 @@ int main()
 		{
 			current_rect_position += sf::Vector2f(0, -Y_OFFSET);
 			std::clog << "Up\n";
-		}		
+		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C) &&
 			sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
@@ -100,5 +106,4 @@ int main()
 
 		window.display();
 	}
-	return 0;
 }
