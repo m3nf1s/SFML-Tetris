@@ -9,6 +9,5 @@
 int main()
 {
 	GameInstance::instance().Start();
-    
 	return 0;
 }
