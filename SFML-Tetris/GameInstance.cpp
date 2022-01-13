@@ -13,16 +13,13 @@ GameInstance& GameInstance::instance()
         std::clog << "Game Instance has been created\n";
     }
 
-
     return *instance_;
 }
 
 void GameInstance::Start()
 {
     Initialization();
-
     Update(window_);
-
     Destruction();
 }
 
@@ -52,7 +49,7 @@ void GameInstance::Update(sf::RenderWindow & window)
                 window.close();
         }
 
-        view_->Render(window);
+        view_->Render(window, model_->GetGamefield());
     }
 }
 
