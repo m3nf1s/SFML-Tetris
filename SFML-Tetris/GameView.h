@@ -3,11 +3,12 @@
 #include <SFML/Graphics.hpp>
 
 #include "UIPersistenceGameData.h"
+#include "Gamefield.h"
 
 class GameView
 {
 public:
-    void Render(sf::RenderWindow& window);
+    GameView();
     const UIPersistenceGameData& GetUIGameData() const;
 
 private:
@@ -16,5 +17,6 @@ private:
 
 private:
     UIPersistenceGameData game_data_;
+    sf::RectangleShape    cell_;
 };
 
