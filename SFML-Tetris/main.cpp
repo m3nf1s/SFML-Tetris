@@ -8,6 +8,6 @@
 
 int main()
 {
-	GameInstance::instance().Start();
-	return 0;
+    GameInstance::instance().Start();
+    return 0;
 }
