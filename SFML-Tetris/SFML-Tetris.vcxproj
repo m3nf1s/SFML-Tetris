@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Figure.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Gamefield.cpp" />
     <ClCompile Include="GameInstance.cpp" />
@@ -143,12 +144,18 @@
     <ClCompile Include="UIPersistenceGameData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Figure.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="Gamefield.h" />
     <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameView.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="UIPersistenceGameData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SFML-Tetris.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
