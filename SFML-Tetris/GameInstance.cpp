@@ -35,7 +35,7 @@ GameInstance::GameInstance()
 
 void GameInstance::Initialization()
 {
-    std::clog << "Game Instance have been initialization!\n";
+    std::clog << "Game Instance has been initialization!\n";
 }
 
 void GameInstance::Update(sf::RenderWindow & window)
@@ -49,7 +49,7 @@ void GameInstance::Update(sf::RenderWindow & window)
                 window.close();
         }
 
-        view_->Render(window, model_->GetGamefield());
+        view_->Render(window, model_->GetGamefield(), model_->GetCurrentFigure());
     }
 }
 
