@@ -14,7 +14,7 @@ public:
 
 private:
     void RenderFigure(sf::RenderWindow& window);
-    void RenderGamefield(sf::RenderWindow& window);
+    void RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefield);
 
 private:
     UIPersistenceGameData game_data_;
