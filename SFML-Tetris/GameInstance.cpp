@@ -27,20 +27,18 @@ void GameInstance::Start()
 }
 
 GameInstance::GameInstance()
-    : window_(sf::VideoMode(800, 600), "Tetris")
+    : model_      (std::make_unique<GameModel>())
+    , view_       (std::make_unique<GameView>())
+    , controller_ (std::make_unique<GameController>())
+    , window_     (sf::VideoMode(
+                    view_->GetUIGameData().WINDOW_WIDTH,
+                    view_->GetUIGameData().WINDOW_HEIGHT), "Tetris")
 {
 }
 
 void GameInstance::Initialization()
 {
-    model_ = std::make_unique<GameModel>();
-    std::clog << "Model have been created!\n";
-
-    view_ = std::make_unique<GameView>();
-    std::clog << "View have been created!\n";
-
-    controller_ = std::make_unique<GameController>();
-    std::clog << "Controller have been created!\n";
+    std::clog << "Game Instance have been initialization!\n";
 }
 
 void GameInstance::Update(sf::RenderWindow & window)
@@ -54,8 +52,7 @@ void GameInstance::Update(sf::RenderWindow & window)
                 window.close();
         }
 
-        window.clear();
-        window.display();
+        view_->Render(window);
     }
 }
 
