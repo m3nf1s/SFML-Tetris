@@ -4,6 +4,7 @@ GameView::GameView()
     : cell_(sf::Vector2f(game_data_.CELL_SIZE - 1, game_data_.CELL_SIZE - 1))
 {
 }
+void GameView::Render(sf::RenderWindow& window, const Gamefield& gamefield)
 {
     window.clear();
 

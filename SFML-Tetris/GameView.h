@@ -9,6 +9,7 @@ class GameView
 {
 public:
     GameView();
+    void Render(sf::RenderWindow& window, const Gamefield& gamefield);
     const UIPersistenceGameData& GetUIGameData() const;
 
 private:
