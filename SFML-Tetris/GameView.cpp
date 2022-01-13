@@ -1,8 +1,13 @@
 #include "GameView.h"
 
 GameView::GameView()
-    : cell_(sf::Vector2f(game_data_.CELL_SIZE - 1, game_data_.CELL_SIZE - 1))
 {
+    if (game_data_.CELL_SIZE != 0)
+    {
+        cell_.setSize(sf::Vector2f(
+            static_cast<float>(game_data_.CELL_SIZE - 1),
+            static_cast<float>(game_data_.CELL_SIZE - 1)));
+    }
 }
 void GameView::Render(sf::RenderWindow& window, const Gamefield& gamefield)
 {
@@ -57,7 +62,9 @@ void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefi
                 break;
             }
 
-            cell_.setPosition(sf::Vector2f(game_data_.CELL_SIZE * j, game_data_.CELL_SIZE * i));
+            cell_.setPosition(sf::Vector2f(
+                static_cast<float>(game_data_.CELL_SIZE * j),
+                static_cast<float>(game_data_.CELL_SIZE * i)));
             window.draw(cell_);
         }
     }
