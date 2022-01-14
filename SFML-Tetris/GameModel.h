@@ -12,9 +12,11 @@ public:
 
     Gamefield& GetGamefield();
 
+    Figure* GetCurrentFigure() const;
+
     const Gamefield& GetGamefield() const;
 
-    Figure* GetCurrentFigure() const;
+    void SetNewFigure();
 
 private:
     Figure GetRandomFigure();

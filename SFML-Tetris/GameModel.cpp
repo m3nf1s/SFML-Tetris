@@ -28,7 +28,7 @@ Figure GameModel::GetRandomFigure()
     {
     	std::random_device random_device;
     	std::mt19937 generator(random_device());
-    	std::uniform_int_distribution<> distribution(0, figures_.size() - 1);
+    	std::uniform_int_distribution<> distribution(0u, figures_.size() - 1u);
 
     	return figures_[distribution(generator)];
     }
@@ -49,7 +49,7 @@ void GameModel::SetFigure()
 
     std::random_device random_device;
     std::mt19937 generator(random_device());
-    std::uniform_int_distribution<uint32_t> distribution(1, 7);
+    std::uniform_int_distribution<uint32_t> distribution(1, 6);
 
     uint32_t new_value = distribution(generator);
 
@@ -63,4 +63,10 @@ void GameModel::SetFigure()
             }
         }
     }
+}
+
+void GameModel::SetNewFigure()
+{
+    current_figure_.reset();
+    SetFigure();
 }
