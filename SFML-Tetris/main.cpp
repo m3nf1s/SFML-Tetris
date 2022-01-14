@@ -2,6 +2,8 @@
 
 int main()
 {
-    GameInstance::instance().Start();
+    GameInstance* instance = GameInstance::GetGameInstance();
+    instance->Start();
+    delete instance;
     return 0;
 }
