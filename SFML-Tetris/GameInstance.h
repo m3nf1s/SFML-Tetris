@@ -3,32 +3,26 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include "GameController.h"
-#include "GameModel.h"
-#include "GameView.h"
-
 class GameInstance 
 {
 public:
-    static GameInstance& instance();
-    
+    static GameInstance* GetGameInstance();
+   
     void Start();
     
     GameInstance(GameInstance& other)           = delete;
+    GameInstance(GameInstance&& other)          = delete;
     GameInstance& operator=(GameInstance other) = delete;
-    
+
+    ~GameInstance();
 private:
     GameInstance();
-    
-    void Initialization();
+
     void Update(sf::RenderWindow& window);
-    void Destruction();
     
 private:    
-    inline static GameInstance*     instance_   = nullptr;
-    
-    std::unique_ptr<GameModel>      model_;
-    std::unique_ptr<GameView>       view_;
-    std::unique_ptr<GameController> controller_;
-    sf::RenderWindow                window_;
+    std::unique_ptr<class GameModel>      model_;
+    std::unique_ptr<class GameView>       view_;
+    std::unique_ptr<class GameController> controller_;
+    sf::RenderWindow                      window_;
 };

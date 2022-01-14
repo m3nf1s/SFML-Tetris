@@ -1,60 +1,39 @@
 #include "GameInstance.h"
-
+#include "GameModel.h"
+#include "GameView.h"
+#include "GameController.h"
 
 #include <iostream>
 
-GameInstance& GameInstance::instance()
+GameInstance* GameInstance::GetGameInstance()
 {
-    //static GameInstance* instance = new GameInstance();
-    if (instance_ == nullptr)
-    {
-        instance_ = new GameInstance();
-
-        std::clog << "Game Instance has been created\n";
-    }
-
-    return *instance_;
+    static GameInstance* instance = new GameInstance();
+    return instance;
 }
 
 void GameInstance::Start()
 {
-    Initialization();
     Update(window_);
-    Destruction();
+}
+
+GameInstance::~GameInstance()
+{
 }
 
 GameInstance::GameInstance()
     : model_      (std::make_unique<GameModel>())
     , view_       (std::make_unique<GameView>())
-    , controller_ (std::make_unique<GameController>())
+    , controller_ (std::make_unique<GameController>(model_.get(), view_.get()))
     , window_     (sf::VideoMode(
                     view_->GetUIGameData().WINDOW_WIDTH,
                     view_->GetUIGameData().WINDOW_HEIGHT), "Tetris")
 {
 }
 
-void GameInstance::Initialization()
-{
-    std::clog << "Game Instance has been initialization!\n";
-}
-
 void GameInstance::Update(sf::RenderWindow & window)
 {
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        view_->Render(window, model_->GetGamefield(), model_->GetCurrentFigure());
+        controller_->PerformLogic(window);
     }
-}
-
-void GameInstance::Destruction()
-{
-    delete instance_;
-    std::clog << "Game Instance has been deleted\n";
 }
