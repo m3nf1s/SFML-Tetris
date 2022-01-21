@@ -5,7 +5,7 @@
 class UIPersistenceGameData
 {
 public:
-    const uint32_t WINDOW_WIDTH  = 600;
-    const uint32_t WINDOW_HEIGHT = 800;
-    const uint32_t CELL_SIZE     = 35;
+    const int32_t WINDOW_WIDTH  = 600;
+    const int32_t WINDOW_HEIGHT = 800;
+    const int32_t CELL_SIZE     = 35;
 };
