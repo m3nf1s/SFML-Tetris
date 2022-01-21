@@ -30,9 +30,6 @@
     <ClCompile Include="GameModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UIPersistenceGameData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Gamefield.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
