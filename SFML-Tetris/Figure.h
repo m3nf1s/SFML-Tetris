@@ -1,27 +1,35 @@
 #pragma once
 
 #include <vector>
-
 #include "Position.h"
-#include "Gamefield.h"
+
+using T_Matrix = std::vector<std::vector<int32_t>>;
 
 class Figure
 {
 public:
     Figure();
-    Figure(const std::vector<std::vector<uint32_t>>& figure);
+    Figure(const T_Matrix& figure);
 
-    std::vector<std::vector<uint32_t>>& GetFigure();
-    void                                SetNewPosition(uint32_t new_row, uint32_t new_column);
+    void SetNewPosition(const int32_t new_x, const int32_t new_y);
 
-    const std::vector<std::vector<uint32_t>>& GetFigure()          const;
-    const Position&                           GetCurrentPosition() const;
+    void MoveLeft(const class Gamefield& gamefield);
+    void MoveRight(const class Gamefield& gamefield);
+    void Rotate(const class Gamefield& gamefield);
+    bool MoveDown(const class Gamefield& gamefield);
 
-public:
-    const uint32_t number_rows    = 4;
-    const uint32_t number_columns = 2;
+    int32_t& Get(const int32_t row_index, const int32_t column_index);
+
+    const int32_t   Get(const int32_t row_index, const int32_t column_index) const;
+    const int32_t   GetSize()                                                const;
+    const Position& GetCurrentPosition()                                     const;
 
 private:
-    std::vector<std::vector<uint32_t>> figure_;
-    Position                           current_position_;
+    bool HasCollisionGamefield(const class Gamefield& gamefield);
+    bool HasCollisionLeftWall();
+    bool HasCollisionRightWall();
+
+private:
+    T_Matrix   figure_;
+    Position   current_position_;
 };
