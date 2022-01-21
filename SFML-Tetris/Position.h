@@ -2,6 +2,6 @@
 
 struct Position
 {
-    uint32_t row    = 0;
-    uint32_t column = 0;
+    int32_t X = 0;
+    int32_t Y = 0;
 };
