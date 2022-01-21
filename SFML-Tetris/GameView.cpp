@@ -26,27 +26,30 @@ const UIPersistenceGameData& GameView::GetUIGameData() const
 
 void GameView::RenderFigure(sf::RenderWindow& window, Figure* figure)
 {
-    uint32_t current_position_row    = figure->GetCurrentPosition().row;
-    uint32_t current_position_column = figure->GetCurrentPosition().column;
+    const int32_t current_position_y = figure->GetCurrentPosition().Y;
+    const int32_t current_position_x = figure->GetCurrentPosition().X;
+    
+    const int32_t number_rows    = figure->GetSize();
+    const int32_t number_columns = figure->GetSize();
 
-    uint32_t number_rows             = figure->number_rows;
-    uint32_t number_columns          = figure->number_columns;
-
-    for (uint32_t row = current_position_row; row < current_position_row + number_rows; ++row)
+    for (int32_t row = current_position_y; row < current_position_y + number_rows; ++row)
     {
-        for (uint32_t column = current_position_column; column < current_position_column + number_columns; ++column)
+        for (int32_t column = current_position_x; column < current_position_x + number_columns; ++column)
         {
-            uint32_t current_value = figure->GetFigure()[row - current_position_row][column - current_position_column];
-            
-            if (current_value != 0)
+            if (column >= 0)
             {
-                cell_.setFillColor(GetNewColor(current_value));
+                const int32_t current_value = figure->Get(row - current_position_y, column - current_position_x);
 
-                cell_.setPosition(
-                    static_cast<float>(game_data_.CELL_SIZE * column),
-                    static_cast<float>(game_data_.CELL_SIZE * row));
+                if (current_value != 0)
+                {
+                    cell_.setFillColor(GetNewColor(current_value));
 
-                window.draw(cell_);
+                    cell_.setPosition(
+                        static_cast<float>(game_data_.CELL_SIZE * column),
+                        static_cast<float>(game_data_.CELL_SIZE * row));
+
+                    window.draw(cell_);
+                }
             }
         }
     }
@@ -54,17 +57,14 @@ void GameView::RenderFigure(sf::RenderWindow& window, Figure* figure)
 
 void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefield)
 {
-    uint32_t number_rows    = gamefield.ROWS;
-    uint32_t number_columns = gamefield.COLUMNS;
+    const int32_t number_rows    = gamefield.ROWS;
+    const int32_t number_columns = gamefield.COLUMNS;
 
-    for (uint32_t row = 0; row < number_rows; ++row)
+    for (int32_t row = 0; row < number_rows; ++row)
     {
-        for (uint32_t column = 0; column < number_columns; ++column)
+        for (int32_t column = 0; column < number_columns; ++column)
         {
-            //uint32_t current_value = gamefield.GetField()[row][column];
-            //cell_.setFillColor(GetNewColor(current_value));
-
-            cell_.setFillColor(GetNewColor(gamefield.GetField()[row][column]));
+            cell_.setFillColor(GetNewColor(gamefield.GetCell(row, column)));
 
             cell_.setPosition(sf::Vector2f(
                 static_cast<float>(game_data_.CELL_SIZE * column),
@@ -75,7 +75,7 @@ void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefi
     }
 }
 
-sf::Color GameView::GetNewColor(uint32_t value) const
+sf::Color GameView::GetNewColor(const int32_t value) const
 {
     switch (value)
     {
@@ -94,4 +94,22 @@ sf::Color GameView::GetNewColor(uint32_t value) const
     default:
         return sf::Color::Blue;
     }
+
+    //switch (value)
+    //{
+    //case 1:
+    //    return sf::Color(255, 182, 193);
+    //case 2:
+    //    return sf::Color(255, 160, 122);
+    //case 3:
+    //    return sf::Color(255, 69, 0);
+    //case 4:
+    //    return sf::Color(218, 112, 214);
+    //case 5:
+    //    return sf::Color(75, 0, 130);
+    //case 6:
+    //    return sf::Color(0, 128, 128);
+    //default:
+    //    return sf::Color::Blue;
+    //}
 }
