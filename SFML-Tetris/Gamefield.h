@@ -3,20 +3,22 @@
 #include <cstdint>
 #include <vector>
 
+//using Matrix = std::vector<std::vector<int32_t>>;
+typedef std::vector<std::vector<int32_t>> Matrix;
+
 class Gamefield
 {
 public:
     Gamefield();
-
-    std::vector<std::vector<uint32_t>>& GetField();
     
-    const std::vector<std::vector<uint32_t>>& GetField() const;
+    const int32_t GetCell(size_t row_index, size_t column_index) const;
+    void SetFigure(const class Figure* figure);
 
 public:
-    const uint32_t COLUMNS = 10;
-    const uint32_t ROWS    = 20;
+    static const int32_t COLUMNS = 10;
+    static const int32_t ROWS    = 20;
 
 private:
-    std::vector<std::vector<uint32_t>> field_;
+    Matrix field_;
 };
 
