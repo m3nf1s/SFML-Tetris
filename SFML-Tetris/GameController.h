@@ -8,11 +8,11 @@ public:
     void PerformLogic(sf::RenderWindow& window);
     void PerformEvent(sf::RenderWindow& window, const sf::Event& event);
 private:
-    class GameModel*  game_model_;
-    class GameView*   game_view_;
+    class GameModel*  game_model_ = nullptr;
+    class GameView*   game_view_  = nullptr; 
 
-    float       delay_ = 5000.0f;
     sf::Clock   clock_;
+    float       delay_ = 2.0f;
     sf::Time    timer_ = clock_.restart();
 };
 
