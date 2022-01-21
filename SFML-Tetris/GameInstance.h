@@ -10,9 +10,10 @@ public:
    
     void Start();
     
-    GameInstance(GameInstance& other)           = delete;
-    GameInstance(GameInstance&& other)          = delete;
-    GameInstance& operator=(GameInstance other) = delete;
+    GameInstance(GameInstance& other)                  = delete;
+    GameInstance(GameInstance&& other)                 = delete;
+    GameInstance& operator=(const GameInstance& other) = delete;
+    GameInstance& operator=(GameInstance&& other)      = delete;
 
     ~GameInstance();
 private:

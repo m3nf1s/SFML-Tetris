@@ -1,9 +1,8 @@
 #include "GameInstance.h"
+
 #include "GameModel.h"
 #include "GameView.h"
 #include "GameController.h"
-
-#include <iostream>
 
 GameInstance* GameInstance::GetGameInstance()
 {
@@ -30,7 +29,7 @@ GameInstance::GameInstance()
 {
 }
 
-void GameInstance::Update(sf::RenderWindow & window)
+void GameInstance::Update(sf::RenderWindow& window)
 {
     while (window.isOpen())
     {
