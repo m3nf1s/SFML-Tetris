@@ -34,8 +34,6 @@ Figure GameModel::GetRandomFigure()
     }
 
     return Figure();
-
-    //return figures_[0];
 }
 
 void GameModel::SetFigure()
@@ -45,21 +43,24 @@ void GameModel::SetFigure()
         current_figure_ = std::make_unique<Figure>(GetRandomFigure());
     }
 
-    current_figure_->SetNewPosition(0, gamefield_.COLUMNS / 2 - 1);
+    current_figure_->SetNewPosition(gamefield_.COLUMNS / 2 - 1, 0);
 
     std::random_device random_device;
     std::mt19937 generator(random_device());
-    std::uniform_int_distribution<uint32_t> distribution(1, 6);
+    
+    //TO DO: delete magic numbers
+    //Create const value with maximum counts of colors
+    std::uniform_int_distribution<int32_t> distribution(1, 6);
 
-    uint32_t new_value = distribution(generator);
+    const int32_t new_value = distribution(generator);
 
-    for (uint32_t row = 0; row < current_figure_->number_rows; ++row)
+    for (int32_t row = 0; row < current_figure_->GetSize(); ++row)
     {
-        for (uint32_t column = 0; column < current_figure_->number_columns; ++column)
+        for (int32_t column = 0; column < current_figure_->GetSize(); ++column)
         {
-            if (current_figure_->GetFigure()[row][column] == 1)
+            if (current_figure_->Get(row, column) == 1)
             {
-                current_figure_->GetFigure()[row][column] = new_value;
+                current_figure_->Get(row, column) = new_value;
             }
         }
     }

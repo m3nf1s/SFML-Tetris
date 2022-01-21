@@ -11,15 +11,14 @@ public:
     GameModel();
 
     Gamefield& GetGamefield();
+    const Gamefield& GetGamefield() const;
 
     Figure* GetCurrentFigure() const;
-
-    const Gamefield& GetGamefield() const;
 
     void SetNewFigure();
 
 private:
-    Figure GetRandomFigure();
+    class Figure GetRandomFigure();
     void   SetFigure();
 
 private:
@@ -28,56 +27,51 @@ private:
 
     const std::vector<Figure> figures_ =
     {
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
                 {1, 1},
                 {1, 1},
-                {0, 0},
-                {0, 0}
             }),
 
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
-                {0, 1},
-                {0, 1},
-                {0, 1},
-                {0, 1}
+                {0, 1, 0, 0},
+                {0, 1, 0, 0},
+                {0, 1, 0, 0},
+                {0, 1, 0, 0}
             }),
 
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
-                {1, 0},
-                {1, 1},
-                {1, 0},
-                {0, 0}
+                {0, 1, 0},
+                {0, 1, 1},
+                {0, 1, 0}
             }),
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
-                {0, 1},
-                {0, 1},
-                {1, 1},
-                {0, 0}
+                {0, 1, 0},
+                {0, 1, 0},
+                {1, 1, 0}
             }),
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
-                {1, 0},
-                {1, 0},
-                {1, 1},
-                {0, 0}
+                {0, 1, 0},
+                {0, 1, 0},
+                {0, 1, 1},
+
             }),
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
-                {1, 0},
-                {1, 1},
-                {0, 1},
-                {0, 0}
+                {1, 0, 0},
+                {1, 1, 0},
+                {0, 1, 0}
+
             }),
-        std::vector<std::vector<uint32_t>>(
+        std::vector<std::vector<int32_t>>(
             {
-                {0, 1},
-                {1, 1},
-                {1, 0},
-                {0, 0}
+                {0, 1, 0},
+                {1, 1, 0},
+                {1, 0, 0}
             })
     };
 
