@@ -28,3 +28,36 @@ void Gamefield::SetFigure(const Figure* figure)
         }
     }
 }
+
+int32_t Gamefield::RemoveLines()
+{
+    int32_t removed = 0;
+
+    for (int32_t i = ROWS - 1; i > 0; --i)
+    {
+        bool is_delete = true;
+        for (int32_t j = 0; j < COLUMNS; ++j)
+        {
+            if (field_.at(i).at(j) == 0)
+            {
+                is_delete = false;
+                break;
+            }
+        }
+
+        if (is_delete)
+        {
+            ++removed;
+            for (int32_t y = i; y > 0; --y)
+            {
+                for (int32_t x = 0; x < COLUMNS; ++x)
+                {
+                    field_.at(y).at(x) = field_.at(y - 1).at(x);
+                }
+            }
+            ++i;
+        }
+    }
+
+    return removed;
+}

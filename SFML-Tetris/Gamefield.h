@@ -13,6 +13,7 @@ public:
     const int32_t GetCell(size_t row_index, size_t column_index) const;
 
     void    SetFigure(const class Figure* figure);
+    int32_t RemoveLines();
 
 public:
     static const int32_t COLUMNS = 10;
