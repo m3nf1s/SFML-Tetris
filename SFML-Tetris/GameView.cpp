@@ -11,7 +11,6 @@ GameView::GameView()
 
     font_.loadFromFile("times.ttf");
 }
-void GameView::Render(sf::RenderWindow& window, const Gamefield& gamefield, Figure* figure)
 
 void GameView::Render(sf::RenderWindow& window, const Gamefield* gamefield,
                       Figure* current_figure, Figure* next_figure,
@@ -63,16 +62,16 @@ void GameView::RenderFigure(sf::RenderWindow& window, Figure* figure)
     }
 }
 
-void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefield)
+void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield* gamefield)
 {
-    const int32_t number_rows    = gamefield.ROWS;
-    const int32_t number_columns = gamefield.COLUMNS;
+    const int32_t number_rows    = gamefield->ROWS;
+    const int32_t number_columns = gamefield->COLUMNS;
 
     for (int32_t row = 0; row < number_rows; ++row)
     {
         for (int32_t column = 0; column < number_columns; ++column)
         {
-            cell_.setFillColor(GetNewColor(gamefield.GetCell(row, column)));
+            cell_.setFillColor(GetNewColor(gamefield->GetCell(row, column)));
 
             cell_.setPosition(sf::Vector2f(
                 static_cast<float>(game_data_.CELL_SIZE * column),

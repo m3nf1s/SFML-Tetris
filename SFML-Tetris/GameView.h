@@ -19,7 +19,7 @@ public:
 
 private:
     void RenderFigure(sf::RenderWindow& window, Figure* figure);
-    void RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefield);
+    void RenderGamefield(sf::RenderWindow& window, const Gamefield* gamefield);
     void RenderText(sf::RenderWindow& window, const Gamefield* gamefield, const Figure* figure,
                     const int32_t current_level, const int32_t current_score);
     void UpdateText(const sf::Font& font, sf::Text& text, const std::string& string_text);
