@@ -37,7 +37,7 @@ const int32_t Figure::GetSize() const
     return static_cast<int32_t>(figure_.size());
 }
 
-bool Figure::HasCollisionGamefield(const Gamefield& gamefield)
+bool Figure::HasCollisionGamefield(const Gamefield* gamefield)
 {
     real_position_Y;
     real_position_X;
@@ -55,7 +55,7 @@ bool Figure::HasCollisionGamefield(const Gamefield& gamefield)
                     return true;
                 }
 
-                if (gamefield.GetCell(real_position_Y, real_position_X) != 0)
+                if (gamefield->GetCell(real_position_Y, real_position_X) != 0)
                 {
                     return true;
                 }
@@ -111,7 +111,7 @@ bool Figure::HasCollisionRightWall()
     return false;
 }
 
-void Figure::MoveLeft(const Gamefield& gamefield)
+void Figure::MoveLeft(const Gamefield* gamefield)
 {
     const int32_t previous_position_X = current_position_.X;
     current_position_.X -= 1;
@@ -129,7 +129,7 @@ void Figure::MoveLeft(const Gamefield& gamefield)
     }
 }
 
-void Figure::MoveRight(const Gamefield& gamefield)
+void Figure::MoveRight(const Gamefield* gamefield)
 {
     const int32_t previous_position_X = current_position_.X;
     current_position_.X += 1;
@@ -147,7 +147,7 @@ void Figure::MoveRight(const Gamefield& gamefield)
     }
 }
 
-void Figure::Rotate(const Gamefield& gamefield)
+void Figure::Rotate(const Gamefield* gamefield)
 {
     const Matrix_t temp_figure = figure_;
 
@@ -179,7 +179,7 @@ void Figure::Rotate(const Gamefield& gamefield)
     }
 }
 
-bool Figure::MoveDown(const Gamefield& Gamefield)
+bool Figure::MoveDown(const Gamefield* Gamefield)
 {
     const int32_t previous_position_Y = current_position_.Y;
     current_position_.Y += 1;
