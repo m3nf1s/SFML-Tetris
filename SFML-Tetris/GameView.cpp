@@ -8,13 +8,21 @@ GameView::GameView()
             static_cast<float>(game_data_.CELL_SIZE - 1),
             static_cast<float>(game_data_.CELL_SIZE - 1)));
     }
+
+    font_.loadFromFile("times.ttf");
 }
 void GameView::Render(sf::RenderWindow& window, const Gamefield& gamefield, Figure* figure)
+
+void GameView::Render(sf::RenderWindow& window, const Gamefield* gamefield,
+                      Figure* current_figure, Figure* next_figure,
+                      const int32_t current_level, const int32_t current_score)
 {
     window.clear();
 
     RenderGamefield(window, gamefield);
-    RenderFigure(window, figure);
+    RenderFigure(window, current_figure);
+    RenderFigure(window, next_figure);
+    RenderText(window, gamefield, next_figure, current_level, current_score);
 
     window.display();
 }
@@ -73,6 +81,31 @@ void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield& gamefi
             window.draw(cell_);
         }
     }
+}
+
+void GameView::RenderText(sf::RenderWindow & window, const Gamefield* gamefield, const Figure* figure,
+                          const int32_t current_level, const int32_t current_score)
+{
+    const int32_t offset      = 30;
+    const int32_t max_figure_size = 5;
+
+    const float cur_lvl_pos_X = static_cast<float>(gamefield->COLUMNS * game_data_.CELL_SIZE + offset);
+    const float cur_lvl_pos_Y = static_cast<float>(figure->GetCurrentPosition().Y + max_figure_size * game_data_.CELL_SIZE + offset);
+
+    current_level_.setPosition(cur_lvl_pos_X, cur_lvl_pos_Y);
+    current_score_.setPosition(cur_lvl_pos_X, cur_lvl_pos_Y + offset);
+    
+    UpdateText(font_, current_level_, "Level: " + std::to_string(current_level));
+    UpdateText(font_, current_score_, "Score: " + std::to_string(current_score));
+
+    window.draw(current_level_);
+    window.draw(current_score_);
+}
+
+void GameView::UpdateText(const sf::Font & font, sf::Text & text, const std::string& string_text)
+{
+    text.setFont(font);
+    text.setString(string_text);
 }
 
 sf::Color GameView::GetNewColor(const int32_t value) const
