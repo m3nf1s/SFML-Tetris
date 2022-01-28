@@ -30,7 +30,7 @@ private:
     void         ChangeFigure(Figure* figure);
 
 private:
-    Gamefield               gamefield_;
+    std::unique_ptr<Gamefield> gamefield_;
     std::unique_ptr<Figure>    current_figure_;
     std::unique_ptr<Figure>    next_figure_;
     

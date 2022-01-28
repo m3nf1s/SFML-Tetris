@@ -3,6 +3,7 @@
 #include "GameModel.h"
 
 GameModel::GameModel()
+    : gamefield_(std::make_unique<Gamefield>())
 {
     GenerateFigure();
 }
