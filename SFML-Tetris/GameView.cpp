@@ -126,22 +126,4 @@ sf::Color GameView::GetNewColor(const int32_t value) const
     default:
         return sf::Color::Blue;
     }
-
-    //switch (value)
-    //{
-    //case 1:
-    //    return sf::Color(255, 182, 193);
-    //case 2:
-    //    return sf::Color(255, 160, 122);
-    //case 3:
-    //    return sf::Color(255, 69, 0);
-    //case 4:
-    //    return sf::Color(218, 112, 214);
-    //case 5:
-    //    return sf::Color(75, 0, 130);
-    //case 6:
-    //    return sf::Color(0, 128, 128);
-    //default:
-    //    return sf::Color::Blue;
-    //}
 }
