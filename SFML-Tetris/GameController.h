@@ -12,7 +12,6 @@ private:
     class GameView*   game_view_  = nullptr; 
 
     sf::Clock   clock_;
-    float       delay_ = 2.0f;
     sf::Time    timer_ = clock_.restart();
 };
 
