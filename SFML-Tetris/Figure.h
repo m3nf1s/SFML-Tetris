@@ -3,13 +3,15 @@
 #include <vector>
 #include "Position.h"
 
-using T_Matrix = std::vector<std::vector<int32_t>>;
+
 
 class Figure
 {
+    using Matrix_t = std::vector<std::vector<int32_t>>;
+
 public:
     Figure();
-    Figure(const T_Matrix& figure);
+    Figure(const Matrix_t& figure);
 
     void SetNewPosition(const int32_t new_x, const int32_t new_y);
 
@@ -30,6 +32,6 @@ private:
     bool HasCollisionRightWall();
 
 private:
-    T_Matrix   figure_;
+    Matrix_t   figure_;
     Position   current_position_;
 };

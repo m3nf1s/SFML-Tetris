@@ -2,11 +2,11 @@
 #include "Gamefield.h"
 
 Figure::Figure()
-    : figure_(T_Matrix(0, std::vector<int32_t>(0)))
+    : figure_(Matrix_t(0, std::vector<int32_t>(0)))
 {
 }
 
-Figure::Figure(const T_Matrix& figure)
+Figure::Figure(const Matrix_t& figure)
     : figure_(figure)
 {
 }
@@ -149,7 +149,7 @@ void Figure::MoveRight(const Gamefield& gamefield)
 
 void Figure::Rotate(const Gamefield& gamefield)
 {
-    const Matrix temp_figure = figure_;
+    const Matrix_t temp_figure = figure_;
 
     for (int32_t i = 0; i < GetSize(); ++i)
     {
