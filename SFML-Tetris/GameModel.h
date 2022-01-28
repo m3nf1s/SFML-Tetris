@@ -10,12 +10,12 @@ class GameModel
 public:
     GameModel();
 
-    Gamefield& GetGamefield();
-    const Gamefield& GetGamefield() const;
+    const Gamefield* GetGamefield() const;
 
     Figure* GetCurrentFigure() const;
 
     void SetNewFigure();
+    Gamefield* GetGamefield();
 
 private:
     class Figure GetRandomFigure();

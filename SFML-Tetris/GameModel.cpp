@@ -7,14 +7,14 @@ GameModel::GameModel()
     SetFigure();
 }
 
-Gamefield& GameModel::GetGamefield()
+Gamefield* GameModel::GetGamefield()
 {
-    return gamefield_;
+    return gamefield_.get();
 }
 
-const Gamefield& GameModel::GetGamefield() const
+const Gamefield* GameModel::GetGamefield() const
 {
-    return gamefield_;
+    return gamefield_.get();
 }
 
 Figure* GameModel::GetCurrentFigure() const
