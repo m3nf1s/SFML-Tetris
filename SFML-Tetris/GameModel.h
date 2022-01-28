@@ -13,17 +13,20 @@ public:
     const Gamefield* GetGamefield() const;
 
     Figure* GetCurrentFigure() const;
+    Figure* GetNextFigure()    const;
 
-    void SetNewFigure();
+    void       GenerateNewFigure();
     Gamefield* GetGamefield();
 
 private:
     class Figure GetRandomFigure();
-    void   SetFigure();
+    void         GenerateFigure();
+    void         ChangeFigure(Figure* figure);
 
 private:
     Gamefield               gamefield_;
-    std::unique_ptr<Figure> current_figure_;
+    std::unique_ptr<Figure>    current_figure_;
+    std::unique_ptr<Figure>    next_figure_;
 
     using Matrix_t = std::vector<std::vector<int32_t>>;
     const std::vector<Figure> figures_ =
