@@ -39,8 +39,8 @@ const int32_t Figure::GetSize() const
 
 bool Figure::HasCollisionGamefield(const Gamefield* gamefield)
 {
-    real_position_Y;
-    real_position_X;
+    int32_t real_position_Y;
+    int32_t real_position_X;
 
     for (int32_t Y = 0; Y < GetSize(); ++Y)
     {
