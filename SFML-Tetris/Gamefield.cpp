@@ -13,13 +13,17 @@ const int32_t Gamefield::GetCell(size_t row_index, size_t column_index) const
 
 void Gamefield::SetFigure(const Figure* figure)
 {
-    for (int32_t i = 0;i < figure->GetSize(); ++ i)
+    const int32_t figure_cur_pos_Y = figure->GetCurrentPosition().Y;
+    const int32_t figure_cur_pos_X = figure->GetCurrentPosition().X;
+    const int32_t figure_size      = figure->GetSize();
+    
+    for (int32_t i = 0; i < figure_size; ++i)
     {
-        for (int32_t j = 0; j < figure->GetSize(); ++j)
+        for (int32_t j = 0; j < figure_size; ++j)
         {
             if (figure->Get(i, j) != 0)
             {
-                field_.at(i + figure->GetCurrentPosition().Y).at(j + figure->GetCurrentPosition().X) = figure->Get(i, j);
+                field_.at(i + figure_cur_pos_Y).at(j + figure_cur_pos_X) = figure->Get(i, j);
             }
         }
     }
