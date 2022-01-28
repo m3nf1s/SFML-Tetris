@@ -3,8 +3,7 @@
 #include <cstdint>
 #include <vector>
 
-//using Matrix = std::vector<std::vector<int32_t>>;
-typedef std::vector<std::vector<int32_t>> Matrix;
+
 
 class Gamefield
 {
@@ -20,6 +19,6 @@ public:
     static const int32_t ROWS    = 20;
 
 private:
-    Matrix field_;
+    using Matrix_t = std::vector<std::vector<int32_t>>;
+    Matrix_t field_;
 };
-
