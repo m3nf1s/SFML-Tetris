@@ -25,15 +25,16 @@ private:
     Gamefield               gamefield_;
     std::unique_ptr<Figure> current_figure_;
 
+    using Matrix_t = std::vector<std::vector<int32_t>>;
     const std::vector<Figure> figures_ =
     {
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {1, 1},
                 {1, 1},
             }),
 
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {0, 1, 0, 0},
                 {0, 1, 0, 0},
@@ -41,39 +42,37 @@ private:
                 {0, 1, 0, 0}
             }),
 
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {0, 1, 0},
                 {0, 1, 1},
                 {0, 1, 0}
             }),
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {0, 1, 0},
                 {0, 1, 0},
                 {1, 1, 0}
             }),
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {0, 1, 0},
                 {0, 1, 0},
                 {0, 1, 1},
 
             }),
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {1, 0, 0},
                 {1, 1, 0},
                 {0, 1, 0}
 
             }),
-        std::vector<std::vector<int32_t>>(
+        Matrix_t(
             {
                 {0, 1, 0},
                 {1, 1, 0},
                 {1, 0, 0}
             })
     };
-
 };
-
