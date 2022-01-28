@@ -6,6 +6,7 @@
 #include <cassert>
 #include <numeric>
 #include <cmath>
+#include <iostream>
 
 GameController::GameController(GameModel* new_game_model, GameView* new_game_view)
     : game_model_(new_game_model)
@@ -23,9 +24,12 @@ void GameController::PerformLogic(sf::RenderWindow& window)
         PerformEvent(window, event);
     }
 
-    Gamefield& gamefield   = game_model_->GetGamefield();
-    Figure* current_figure = game_model_->GetCurrentFigure();
+    Gamefield* gamefield      = game_model_->GetGamefield();
+    Figure*    current_figure = game_model_->GetCurrentFigure();
+    Figure*    next_figure    = game_model_->GetNextFigure();
+
     assert(current_figure != nullptr);
+    assert(next_figure    != nullptr);
 
     if (timer_.asSeconds() > delay_)
     {
@@ -41,6 +45,8 @@ void GameController::PerformLogic(sf::RenderWindow& window)
     }
 
     game_view_->Render(window, gamefield, current_figure);
+    const int32_t current_level = game_model_->GetCurrentLevel();
+    const int32_t current_score = game_model_->GetCurrentScore();
 }
 
 void GameController::PerformEvent(sf::RenderWindow& window, const sf::Event& event)
@@ -53,8 +59,10 @@ void GameController::PerformEvent(sf::RenderWindow& window, const sf::Event& eve
 
     if (event.type == sf::Event::KeyPressed)
     {
-        Gamefield& gamefield = game_model_->GetGamefield();
-        Figure* current_figure = game_model_->GetCurrentFigure();
+        Gamefield* gamefield      = game_model_->GetGamefield();
+        Figure*    current_figure = game_model_->GetCurrentFigure();
+
+        assert(gamefield != nullptr);
         assert(current_figure != nullptr);
 
         if (event.key.code == sf::Keyboard::Enter)
