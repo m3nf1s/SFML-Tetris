@@ -100,6 +100,12 @@ void GameModel::GenerateFigure()
     ChangeFigure(next_figure_.get());
 }
 
+void GameModel::GenerateNewFigure()
+{
+    current_figure_ = std::move(next_figure_);
+    GenerateFigure();
+}
+
 const int32_t GameModel::GetCurrentLevel() const
 {
     return static_cast<int32_t>(current_level_) + 1;
