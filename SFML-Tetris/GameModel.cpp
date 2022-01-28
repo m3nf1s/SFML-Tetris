@@ -98,4 +98,54 @@ void GameModel::GenerateFigure()
     ChangeFigure(current_figure_.get());
     ChangeFigure(next_figure_.get());
 }
+
+const int32_t GameModel::GetCurrentLevel() const
+{
+    return static_cast<int32_t>(current_level_) + 1;
+}
+
+const int32_t GameModel::GetCurrentScore() const
+{
+    return current_score_;
+}
+
+const float GameModel::GetCurrentSpeed() const
+{
+    return speed_and_score.at(current_level_).first;
+}
+
+const int32_t GameModel::GetNeededScore() const
+{
+    return speed_and_score.at(current_level_).second;
+}
+
+void GameModel::UpdateScore(const int32_t number_removed_lines)
+{
+    int32_t additional_score;
+
+    switch (number_removed_lines)
+    {
+    case 1:
+        additional_score = number_removed_lines * 100;
+        break;
+    case 2:
+        additional_score = number_removed_lines * 200;
+        break;
+    case 3:
+        additional_score = number_removed_lines * 300;
+        break;
+    case 4:
+        additional_score = number_removed_lines * 400;
+        break;
+    default:
+        additional_score = 0;
+        break;
+    }
+
+    current_score_ += additional_score;
+
+    if (current_score_ >= speed_and_score.at(current_level_).second && current_level_ + 1 < speed_and_score.size())
+    {
+        ++current_level_;
+    }
 }
