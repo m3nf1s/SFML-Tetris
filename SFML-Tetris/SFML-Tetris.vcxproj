@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="Gamedata.cpp" />
     <ClCompile Include="Gamefield.cpp" />
     <ClCompile Include="GameInstance.cpp" />
     <ClCompile Include="GameModel.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="Gamedata.h" />
     <ClInclude Include="UIPersistenceGameData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

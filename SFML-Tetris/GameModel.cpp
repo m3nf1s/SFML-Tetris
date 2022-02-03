@@ -34,7 +34,7 @@ Figure GameModel::GetRandomFigure()
     {
         std::random_device random_device;
         std::mt19937 generator(random_device());
-        std::uniform_int_distribution<> distribution(0u, figures_.size() - 1u);
+        std::uniform_int_distribution<> distribution(0, static_cast<int32_t>(figures_.size() - 1u));
 
         return figures_[distribution(generator)];
     }
@@ -154,5 +154,39 @@ void GameModel::UpdateScore(const int32_t number_removed_lines)
     if (current_score_ >= speed_and_score.at(current_level_).second && current_level_ + 1 < speed_and_score.size())
     {
         ++current_level_;
+    }
+}
+
+Gamedata GameModel::GetGamedata() const
+{
+    return Gamedata(GetGamefield(), GetCurrentFigure(), GetNextFigure(), GetCurrentLevel(), GetCurrentScore());
+}
+
+const bool GameModel::GetIsGameover() const
+{
+    return is_gameover_;
+}
+
+void GameModel::CheckEndGame()
+{
+    int32_t real_position_Y;
+    int32_t real_position_X;
+
+    for (int32_t Y = 0; Y < current_figure_->GetSize(); ++Y)
+    {
+        for (int32_t X = 0; X < current_figure_->GetSize(); ++X)
+        {
+            if (current_figure_->Get(Y, X) != 0)
+            {
+                real_position_Y = current_figure_->GetCurrentPosition().Y + Y;
+                real_position_X = current_figure_->GetCurrentPosition().X + X;
+
+                if (gamefield_->GetCell(real_position_Y, real_position_X) != 0)
+                {
+                    is_gameover_ = true;
+                    return;
+                }
+            }
+        }
     }
 }

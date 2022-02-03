@@ -4,6 +4,7 @@
 
 #include "Gamefield.h"
 #include "Figure.h"
+#include "Gamedata.h"
 
 class GameModel
 {
@@ -12,17 +13,20 @@ public:
 
     const Gamefield* GetGamefield() const;
 
-    Figure* GetCurrentFigure() const;
-    Figure* GetNextFigure()    const;
+    Figure*    GetCurrentFigure() const;
+    Figure*    GetNextFigure()    const;
+    Gamedata   GetGamedata()      const;
 
     void       GenerateNewFigure();
     Gamefield* GetGamefield();
     void       UpdateScore(const int32_t number_removed_lines);
+    void       CheckEndGame();
 
     const int32_t GetCurrentLevel() const;
     const int32_t GetCurrentScore() const;
     const float   GetCurrentSpeed() const;
     const int32_t GetNeededScore()  const;
+    const bool    GetIsGameover()   const;
 
 private:
     class Figure GetRandomFigure();
@@ -36,6 +40,7 @@ private:
     
     size_t  current_level_ = 0;
     int32_t current_score_ = 0;
+    bool    is_gameover_   = false;
 
     using Speed_and_score = std::pair<float, int32_t>;
     const std::vector<Speed_and_score> speed_and_score =

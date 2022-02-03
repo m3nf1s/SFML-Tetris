@@ -1,37 +1,37 @@
 #include "GameView.h"
+#include <cstdint>
 
-GameView::GameView()
+GameView::GameView(const Gamedata& gamedata)
+    : game_data_(gamedata)
 {
-    if (game_data_.CELL_SIZE != 0)
+    if (persistence_game_data_.CELL_SIZE != 0)
     {
         cell_.setSize(sf::Vector2f(
-            static_cast<float>(game_data_.CELL_SIZE - 1),
-            static_cast<float>(game_data_.CELL_SIZE - 1)));
+            static_cast<float>(persistence_game_data_.CELL_SIZE - 1),
+            static_cast<float>(persistence_game_data_.CELL_SIZE - 1)));
     }
 
     font_.loadFromFile("times.ttf");
 }
 
-void GameView::Render(sf::RenderWindow& window, const Gamefield* gamefield,
-                      Figure* current_figure, Figure* next_figure,
-                      const int32_t current_level, const int32_t current_score)
+void GameView::Render(sf::RenderWindow& window)
 {
     window.clear();
 
-    RenderGamefield(window, gamefield);
-    RenderFigure(window, current_figure);
-    RenderFigure(window, next_figure);
-    RenderText(window, gamefield, next_figure, current_level, current_score);
+    RenderGamefield(window);
+    RenderFigure(window, game_data_.current_figure);
+    RenderFigure(window, game_data_.next_figure);
+    RenderText(window);
 
     window.display();
 }
 
 const UIPersistenceGameData& GameView::GetUIGameData() const
 {
-    return game_data_;
+    return persistence_game_data_;
 }
 
-void GameView::RenderFigure(sf::RenderWindow& window, Figure* figure)
+void GameView::RenderFigure(sf::RenderWindow& window, const Figure* figure)
 {
     const int32_t current_position_y = figure->GetCurrentPosition().Y;
     const int32_t current_position_x = figure->GetCurrentPosition().X;
@@ -52,8 +52,8 @@ void GameView::RenderFigure(sf::RenderWindow& window, Figure* figure)
                     cell_.setFillColor(GetNewColor(current_value));
 
                     cell_.setPosition(
-                        static_cast<float>(game_data_.CELL_SIZE * column),
-                        static_cast<float>(game_data_.CELL_SIZE * row));
+                        static_cast<float>(persistence_game_data_.CELL_SIZE * column),
+                        static_cast<float>(persistence_game_data_.CELL_SIZE * row));
 
                     window.draw(cell_);
                 }
@@ -62,46 +62,45 @@ void GameView::RenderFigure(sf::RenderWindow& window, Figure* figure)
     }
 }
 
-void GameView::RenderGamefield(sf::RenderWindow& window, const Gamefield* gamefield)
+void GameView::RenderGamefield(sf::RenderWindow& window)
 {
-    const int32_t number_rows    = gamefield->ROWS;
-    const int32_t number_columns = gamefield->COLUMNS;
+    const int32_t number_rows    = game_data_.gamefield->ROWS;
+    const int32_t number_columns = game_data_.gamefield->COLUMNS;
 
     for (int32_t row = 0; row < number_rows; ++row)
     {
         for (int32_t column = 0; column < number_columns; ++column)
         {
-            cell_.setFillColor(GetNewColor(gamefield->GetCell(row, column)));
+            cell_.setFillColor(GetNewColor(game_data_.gamefield->GetCell(row, column)));
 
             cell_.setPosition(sf::Vector2f(
-                static_cast<float>(game_data_.CELL_SIZE * column),
-                static_cast<float>(game_data_.CELL_SIZE * row)));
+                static_cast<float>(persistence_game_data_.CELL_SIZE * column),
+                static_cast<float>(persistence_game_data_.CELL_SIZE * row)));
 
             window.draw(cell_);
         }
     }
 }
 
-void GameView::RenderText(sf::RenderWindow & window, const Gamefield* gamefield, const Figure* figure,
-                          const int32_t current_level, const int32_t current_score)
+void GameView::RenderText(sf::RenderWindow & window)
 {
-    const int32_t offset      = 30;
+    const int32_t offset          = 30;
     const int32_t max_figure_size = 5;
 
-    const float cur_lvl_pos_X = static_cast<float>(gamefield->COLUMNS * game_data_.CELL_SIZE + offset);
-    const float cur_lvl_pos_Y = static_cast<float>(figure->GetCurrentPosition().Y + max_figure_size * game_data_.CELL_SIZE + offset);
+    const float cur_lvl_pos_X = static_cast<float>(game_data_.gamefield->COLUMNS * persistence_game_data_.CELL_SIZE + offset);
+    const float cur_lvl_pos_Y = static_cast<float>(game_data_.next_figure->GetCurrentPosition().Y + max_figure_size * persistence_game_data_.CELL_SIZE + offset);
 
     current_level_.setPosition(cur_lvl_pos_X, cur_lvl_pos_Y);
     current_score_.setPosition(cur_lvl_pos_X, cur_lvl_pos_Y + offset);
     
-    UpdateText(font_, current_level_, "Level: " + std::to_string(current_level));
-    UpdateText(font_, current_score_, "Score: " + std::to_string(current_score));
+    UpdateText(font_, current_level_, "Level: " + std::to_string(game_data_.current_level));
+    UpdateText(font_, current_score_, "Score: " + std::to_string(game_data_.current_score));
 
     window.draw(current_level_);
     window.draw(current_score_);
 }
 
-void GameView::UpdateText(const sf::Font & font, sf::Text & text, const std::string& string_text)
+void GameView::UpdateText(const sf::Font& font, sf::Text& text, const std::string& string_text)
 {
     text.setFont(font);
     text.setString(string_text);
@@ -126,4 +125,9 @@ sf::Color GameView::GetNewColor(const int32_t value) const
     default:
         return sf::Color::Blue;
     }
+}
+
+void GameView::UpdateUIGamedata(const Gamedata& gamedata)
+{
+    game_data_ = gamedata;
 }
