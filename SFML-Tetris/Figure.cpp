@@ -17,12 +17,7 @@ void Figure::SetNewPosition(const int32_t new_x, const int32_t new_y)
     current_position_.Y = new_y;
 }
 
-int32_t& Figure::Get(const int32_t row_index, const int32_t column_index)
-{
-    return figure_.at(row_index).at(column_index);
-}
-
-const int32_t Figure::Get(const int32_t row_index, const int32_t column_index) const
+int32_t Figure::Get(const int32_t row_index, const int32_t column_index) const
 {
     return figure_.at(row_index).at(column_index);
 }
@@ -32,24 +27,22 @@ const Position& Figure::GetCurrentPosition() const
     return current_position_;
 }
 
-const int32_t Figure::GetSize() const
+int32_t Figure::GetSize() const
 {
     return static_cast<int32_t>(figure_.size());
 }
 
-bool Figure::HasCollisionGamefield(const Gamefield* gamefield)
+bool Figure::HasCollisionGamefield(const Gamefield* gamefield) const
 {
-    int32_t real_position_Y;
-    int32_t real_position_X;
-
     for (int32_t Y = 0; Y < GetSize(); ++Y)
     {
         for (int32_t X = 0; X < GetSize(); ++X)
         {
             if (figure_.at(Y).at(X) != 0)
             {
-                real_position_Y = current_position_.Y + Y;
-                real_position_X = current_position_.X + X;
+                const int32_t real_position_Y = current_position_.Y + Y;
+                const int32_t real_position_X = current_position_.X + X;
+                
                 if (real_position_Y > Gamefield::ROWS - 1)
                 {
                     return true;
@@ -66,16 +59,15 @@ bool Figure::HasCollisionGamefield(const Gamefield* gamefield)
     return false;
 }
 
-bool Figure::HasCollisionLeftWall()
+bool Figure::HasCollisionLeftWall() const
 {
-    int32_t real_position_X;
     for (int32_t X = 0; X < GetSize(); ++X)
     {
         for (int32_t Y = 0; Y < GetSize(); ++Y)
         {
             if (figure_.at(Y).at(X) != 0)
             {
-                real_position_X = current_position_.X + X;
+                const int32_t real_position_X = current_position_.X + X;
 
                 if (real_position_X < 0)
                 {
@@ -88,17 +80,15 @@ bool Figure::HasCollisionLeftWall()
     return false;
 }
 
-bool Figure::HasCollisionRightWall()
+bool Figure::HasCollisionRightWall() const
 {
-    int32_t real_position_X;
-
     for (int32_t X = 0; X < GetSize(); ++X)
     {
         for (int32_t Y = 0; Y < GetSize(); ++Y)
         {
             if (figure_.at(Y).at(X) != 0)
             {
-                real_position_X = current_position_.X + X;
+                const int32_t real_position_X = current_position_.X + X;
 
                 if (real_position_X > Gamefield::COLUMNS - 1)
                 {
@@ -111,18 +101,34 @@ bool Figure::HasCollisionRightWall()
     return false;
 }
 
+bool Figure::HasCollisionTop() const
+{
+    for (int32_t Y = 0; Y < GetSize(); ++Y)
+    {
+        for (int32_t X = 0; X < GetSize(); ++X)
+        {
+            if (figure_.at(Y).at(X) != 0)
+            {
+                const int32_t real_position_Y = current_position_.Y + Y;
+
+                if (real_position_Y < 0)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+
+}
+
 void Figure::MoveLeft(const Gamefield* gamefield)
 {
     const int32_t previous_position_X = current_position_.X;
     current_position_.X -= 1;
 
-    if (HasCollisionLeftWall())
-    {
-        current_position_.X = previous_position_X;
-        return;
-    }
-
-    if (HasCollisionGamefield(gamefield))
+    if (HasCollisionLeftWall() || HasCollisionGamefield(gamefield))
     {
         current_position_.X = previous_position_X;
         return;
@@ -134,13 +140,7 @@ void Figure::MoveRight(const Gamefield* gamefield)
     const int32_t previous_position_X = current_position_.X;
     current_position_.X += 1;
 
-    if (HasCollisionRightWall())
-    {
-        current_position_.X = previous_position_X;
-        return;
-    }
-
-    if (HasCollisionGamefield(gamefield))
+    if (HasCollisionRightWall() || HasCollisionGamefield(gamefield))
     {
         current_position_.X = previous_position_X;
         return;
@@ -172,6 +172,11 @@ void Figure::Rotate(const Gamefield* gamefield)
         current_position_.X -= (current_position_.X + GetSize() - Gamefield::COLUMNS);
     }
 
+    if (HasCollisionTop())
+    {
+        current_position_.Y += (0 - current_position_.Y);
+    }
+
     if (HasCollisionGamefield(gamefield))
     {
         figure_ = temp_figure;
@@ -192,4 +197,3 @@ bool Figure::MoveDown(const Gamefield* Gamefield)
 
     return false;
 }
-

@@ -25,8 +25,15 @@ GameInstance::GameInstance()
     , controller_ (std::make_unique<GameController>(model_.get(), view_.get()))
     , window_     (sf::VideoMode(
                     view_->GetUIGameData().WINDOW_WIDTH,
-                    view_->GetUIGameData().WINDOW_HEIGHT), "Tetris")
+                    view_->GetUIGameData().WINDOW_HEIGHT), "Tetris", sf::Style::Titlebar | sf::Style::Close)
 {
+    //window_.setKeyRepeatEnabled(false);
+
+#ifdef _DEBUG
+    window_.setFramerateLimit(60);
+#else
+    window_.setFramerateLimit(30);
+#endif
 }
 
 void GameInstance::Update(sf::RenderWindow& window)

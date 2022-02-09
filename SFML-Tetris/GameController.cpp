@@ -26,8 +26,6 @@ void GameController::PerformLogic(sf::RenderWindow& window)
 
     if (!game_model_->GetIsGameover())
     {
-
-
         Gamefield* gamefield = game_model_->GetGamefield();
         Figure*    current_figure = game_model_->GetCurrentFigure();
 
@@ -44,9 +42,9 @@ void GameController::PerformLogic(sf::RenderWindow& window)
 
             if (has_collision)
             {
-                gamefield->SetFigure(current_figure);
-                int32_t removed = gamefield->RemoveLines();
-                game_model_->GenerateNewFigure();
+                gamefield->PlaceFigure(current_figure);
+                const int32_t removed = gamefield->RemoveLines();
+                game_model_->GenerateNextFigures();
                 game_model_->UpdateScore(removed);
 
                 game_view_->UpdateUIGamedata(game_model_->GetGamedata());
@@ -70,9 +68,9 @@ void GameController::PerformEvent(sf::RenderWindow& window, const sf::Event& eve
     if (event.type == sf::Event::KeyPressed)
     {
 #ifdef _DEBUG
-        if (event.key.code == sf::Keyboard::Enter)
+        if (event.key.code == sf::Keyboard::RAlt)
         {
-            game_model_->GenerateNewFigure();
+            game_model_->GenerateNextFigures();
             game_view_->UpdateUIGamedata(game_model_->GetGamedata());
         }
 #endif

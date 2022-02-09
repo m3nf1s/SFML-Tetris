@@ -12,6 +12,8 @@ GameView::GameView(const Gamedata& gamedata)
     }
 
     font_.loadFromFile("times.ttf");
+    current_level_.setFont(font_);
+    current_score_.setFont(font_);
 }
 
 void GameView::Render(sf::RenderWindow& window)
@@ -93,17 +95,11 @@ void GameView::RenderText(sf::RenderWindow & window)
     current_level_.setPosition(cur_lvl_pos_X, cur_lvl_pos_Y);
     current_score_.setPosition(cur_lvl_pos_X, cur_lvl_pos_Y + offset);
     
-    UpdateText(font_, current_level_, "Level: " + std::to_string(game_data_.current_level));
-    UpdateText(font_, current_score_, "Score: " + std::to_string(game_data_.current_score));
+    current_level_.setString("Level: " + std::to_string(game_data_.current_level));
+    current_score_.setString("Score: " + std::to_string(game_data_.current_score));
 
     window.draw(current_level_);
     window.draw(current_score_);
-}
-
-void GameView::UpdateText(const sf::Font& font, sf::Text& text, const std::string& string_text)
-{
-    text.setFont(font);
-    text.setString(string_text);
 }
 
 sf::Color GameView::GetNewColor(const int32_t value) const
@@ -113,17 +109,19 @@ sf::Color GameView::GetNewColor(const int32_t value) const
     case 1:
         return sf::Color::Cyan;
     case 2:
-        return sf::Color::Green;
+        return sf::Color(0, 150, 250);
     case 3:
-        return sf::Color::Magenta;
+        return sf::Color(0, 36, 255);
     case 4:
-        return sf::Color::Red;
+        return sf::Color(255, 146, 0);
     case 5:
-        return sf::Color::White;
+        return sf::Color(255, 219, 0);
     case 6:
-        return sf::Color::Yellow;
+        return sf::Color(0, 219, 0);
+    case 7:
+        return sf::Color(146, 0, 255);
     default:
-        return sf::Color::Blue;
+        return sf::Color(36, 36, 85);
     }
 }
 

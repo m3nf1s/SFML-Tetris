@@ -5,125 +5,71 @@
 GameModel::GameModel()
     : gamefield_(std::make_unique<Gamefield>())
 {
-    GenerateFigure();
+    GenerateFigures();
 }
 
-Gamefield* GameModel::GetGamefield()
+Figure GameModel::GetRandomFigure() const
 {
-    return gamefield_.get();
-}
-
-const Gamefield* GameModel::GetGamefield() const
-{
-    return gamefield_.get();
-}
-
-Figure* GameModel::GetCurrentFigure() const
-{
-    return current_figure_.get();
-}
-
-Figure* GameModel::GetNextFigure() const
-{
-    return next_figure_.get();
-}
-
-Figure GameModel::GetRandomFigure()
-{
-    if (figures_.size() != 0)
+    if (!figures_.empty())
     {
         std::random_device random_device;
         std::mt19937 generator(random_device());
-        std::uniform_int_distribution<> distribution(0, static_cast<int32_t>(figures_.size() - 1u));
+        const std::uniform_int_distribution<> distribution(0, static_cast<int32_t>(figures_.size() - 1u));
+        
+        FigureWithRotations figure_with_rotations = figures_.at(distribution(generator));
 
-        return figures_[distribution(generator)];
+        if (!figure_with_rotations.empty())
+        {
+            const std::uniform_int_distribution<> distribution_figure(0, static_cast<int32_t>(figure_with_rotations.size() - 1u));
+
+            return figure_with_rotations.at(distribution_figure(generator));
+        }
     }
 
     return Figure();
 }
 
-void GameModel::ChangeFigure(Figure* figure)
+void GameModel::GenerateFigures()
 {
-    std::random_device random_device;
-    std::mt19937 generator(random_device());
-
-    //TO DO: delete magic numbers
-    //Create const value with maximum counts of colors
-    std::uniform_int_distribution<int32_t> distribution(1, 6);
-
-    const int32_t new_value = distribution(generator);
-
-    for (int32_t row = 0; row < figure->GetSize(); ++row)
-    {
-        for (int32_t column = 0; column < figure->GetSize(); ++column)
-        {
-            if (figure->Get(row, column) == 1)
-            {
-                figure->Get(row, column) = new_value;
-            }
-        }
-    }
-}
-
-void GameModel::GenerateFigure()
-{
-    std::random_device random_device;
-    std::mt19937 generator(random_device());
-    std::uniform_int_distribution<int32_t> distribution(0, 3);
-    int32_t number_rotation = distribution(generator);
-
     if (current_figure_ == nullptr)
     {
-        current_figure_ = std::make_unique<Figure>(GetRandomFigure());
-        for (int32_t i = 0; i < number_rotation; ++i)
-        {
-            current_figure_->Rotate(gamefield_.get());
-        }
-    }
-    number_rotation = distribution(generator);
-    if (next_figure_ == nullptr)
-    {
-        next_figure_ = std::make_unique<Figure>(GetRandomFigure());
-        for (int32_t i = 0; i < number_rotation; ++i)
-        {
-            next_figure_->Rotate(gamefield_.get());
-        }
+        current_figure_ = std::make_unique<Figure>(std::move(GetRandomFigure()));
     }
 
-    current_figure_->SetNewPosition(gamefield_->COLUMNS / 2 - 1, 0);
+    if (next_figure_ == nullptr)
+    {
+        next_figure_ = std::make_unique<Figure>(std::move(GetRandomFigure()));
+    }
+
+    const int current_figure_new_position_X = gamefield_->COLUMNS / 2 - current_figure_->GetSize() / 2;
+    const int current_figure_new_position_Y = CalculateRealPositionY();
+    current_figure_->SetNewPosition(current_figure_new_position_X, -current_figure_new_position_Y);
 
     //TO DO
     //Need to improve UI position
     next_figure_->SetNewPosition(gamefield_->COLUMNS + 2, 2);
-
-    ChangeFigure(current_figure_.get());
-    ChangeFigure(next_figure_.get());
 }
 
-void GameModel::GenerateNewFigure()
+int32_t GameModel::CalculateRealPositionY() const
+{
+    for (int32_t Y = 0; Y < current_figure_->GetSize(); ++Y)
+    {
+        for (int32_t X = 0; X < current_figure_->GetSize(); ++X)
+        {
+            if (current_figure_->Get(Y, X) != 0)
+            {
+                return Y;
+            }
+        }
+    }
+
+    return 0;
+}
+
+void GameModel::GenerateNextFigures()
 {
     current_figure_ = std::move(next_figure_);
-    GenerateFigure();
-}
-
-const int32_t GameModel::GetCurrentLevel() const
-{
-    return static_cast<int32_t>(current_level_) + 1;
-}
-
-const int32_t GameModel::GetCurrentScore() const
-{
-    return current_score_;
-}
-
-const float GameModel::GetCurrentSpeed() const
-{
-    return speed_and_score.at(current_level_).first;
-}
-
-const int32_t GameModel::GetNeededScore() const
-{
-    return speed_and_score.at(current_level_).second;
+    GenerateFigures();
 }
 
 void GameModel::UpdateScore(const int32_t number_removed_lines)
@@ -157,29 +103,46 @@ void GameModel::UpdateScore(const int32_t number_removed_lines)
     }
 }
 
+int32_t GameModel::GetCurrentLevel() const
+{
+    return static_cast<int32_t>(current_level_) + 1;
+}
+
+int32_t GameModel::GetCurrentScore() const
+{
+    return current_score_;
+}
+
+float GameModel::GetCurrentSpeed() const
+{
+    return speed_and_score.at(current_level_).first;
+}
+
+int32_t GameModel::GetNeededScore() const
+{
+    return speed_and_score.at(current_level_).second;
+}
+
 Gamedata GameModel::GetGamedata() const
 {
     return Gamedata(GetGamefield(), GetCurrentFigure(), GetNextFigure(), GetCurrentLevel(), GetCurrentScore());
 }
 
-const bool GameModel::GetIsGameover() const
+bool GameModel::GetIsGameover() const
 {
     return is_gameover_;
 }
 
 void GameModel::CheckEndGame()
 {
-    int32_t real_position_Y;
-    int32_t real_position_X;
-
     for (int32_t Y = 0; Y < current_figure_->GetSize(); ++Y)
     {
         for (int32_t X = 0; X < current_figure_->GetSize(); ++X)
         {
             if (current_figure_->Get(Y, X) != 0)
             {
-                real_position_Y = current_figure_->GetCurrentPosition().Y + Y;
-                real_position_X = current_figure_->GetCurrentPosition().X + X;
+                const int32_t real_position_Y = current_figure_->GetCurrentPosition().Y + Y;
+                const int32_t real_position_X = current_figure_->GetCurrentPosition().X + X;
 
                 if (gamefield_->GetCell(real_position_Y, real_position_X) != 0)
                 {
@@ -189,4 +152,24 @@ void GameModel::CheckEndGame()
             }
         }
     }
+}
+
+Gamefield* GameModel::GetGamefield()
+{
+    return gamefield_.get();
+}
+
+const Gamefield* GameModel::GetGamefield() const
+{
+    return gamefield_.get();
+}
+
+Figure* GameModel::GetCurrentFigure() const
+{
+    return current_figure_.get();
+}
+
+Figure* GameModel::GetNextFigure() const
+{
+    return next_figure_.get();
 }

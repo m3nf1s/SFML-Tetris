@@ -7,6 +7,7 @@
 
 class Figure
 {
+private:
     using Matrix_t = std::vector<std::vector<int32_t>>;
 
 public:
@@ -20,16 +21,16 @@ public:
     void Rotate(const class Gamefield* gamefield);
     bool MoveDown(const class Gamefield* gamefield);
 
-    int32_t& Get(const int32_t row_index, const int32_t column_index);
-
-    const int32_t   Get(const int32_t row_index, const int32_t column_index) const;
-    const int32_t   GetSize()                                                const;
+    int32_t Get(const int32_t row_index, const int32_t column_index) const;
+    int32_t GetSize() const;
     const Position& GetCurrentPosition()                                     const;
 
 private:
-    bool HasCollisionGamefield(const class Gamefield* gamefield);
-    bool HasCollisionLeftWall();
-    bool HasCollisionRightWall();
+    bool HasCollisionGamefield(const class Gamefield* gamefield) const;
+    bool HasCollisionTop() const;
+    bool HasCollisionLeftWall() const;
+    bool HasCollisionRightWall() const;
+
 
 private:
     Matrix_t   figure_;

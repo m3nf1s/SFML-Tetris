@@ -6,12 +6,12 @@ Gamefield::Gamefield()
 {
 }
 
-const int32_t Gamefield::GetCell(size_t row_index, size_t column_index) const
+int32_t Gamefield::GetCell(const size_t row_index, const size_t column_index) const
 {
     return field_.at(row_index).at(column_index);
 }
 
-void Gamefield::SetFigure(const Figure* figure)
+void Gamefield::PlaceFigure(const Figure* figure)
 {
     const int32_t figure_cur_pos_Y = figure->GetCurrentPosition().Y;
     const int32_t figure_cur_pos_X = figure->GetCurrentPosition().X;
