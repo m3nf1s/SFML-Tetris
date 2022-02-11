@@ -43,9 +43,9 @@ void GameController::PerformLogic(sf::RenderWindow& window)
             if (has_collision)
             {
                 gamefield->PlaceFigure(current_figure);
-                const int32_t removed = gamefield->RemoveLines();
+                const int32_t removedLinesNum = gamefield->RemoveLines();
                 game_model_->GenerateNextFigures();
-                game_model_->UpdateScore(removed);
+                game_model_->UpdateScore(removedLinesNum);
 
                 game_view_->UpdateUIGamedata(game_model_->GetGamedata());
 
@@ -65,31 +65,31 @@ void GameController::PerformLogic(sf::RenderWindow& window)
 
 void GameController::PerformEvent(sf::RenderWindow& window, const sf::Event& event, Gamefield* gamefield, Figure* figure)
 {
-    if (event.type == sf::Event::KeyPressed)
+    if (event.type != sf::Event::KeyPressed) return;
+
+    const float magic_number_acceleration = 50.0f;
+
+    switch (event.key.code)
     {
 #ifdef _DEBUG
-        if (event.key.code == sf::Keyboard::RAlt)
-        {
-            game_model_->GenerateNextFigures();
-            game_view_->UpdateUIGamedata(game_model_->GetGamedata());
-        }
+    case sf::Keyboard::Enter:
+        game_model_->GenerateNextFigures();
+        game_view_->UpdateUIGamedata(game_model_->GetGamedata());
+        break;
 #endif
-
-        if (event.key.code == sf::Keyboard::Left)
-        {
-            figure->MoveLeft(gamefield);
-        }
-        if (event.key.code == sf::Keyboard::Right)
-        {
-            figure->MoveRight(gamefield);
-        }        
-        if (event.key.code == sf::Keyboard::Up)
-        {
-            figure->Rotate(gamefield);
-        }
-        if (event.key.code == sf::Keyboard::Down)
-        {
-            timer_ *= 50.0f;
-        }
-    }    
+    case sf::Keyboard::Left:
+        figure->MoveLeft(gamefield);
+        break;
+    case sf::Keyboard::Right:
+        figure->MoveRight(gamefield);
+        break;
+    case sf::Keyboard::Down:
+        timer_ *= magic_number_acceleration;
+        break;
+    case sf::Keyboard::Up:
+        figure->Rotate(gamefield);
+        break;
+    default:
+        break;
+    }
 }

@@ -47,7 +47,9 @@ void GameModel::GenerateFigures()
 
     //TO DO
     //Need to improve UI position
-    next_figure_->SetNewPosition(gamefield_->COLUMNS + 2, 2);
+    const int next_figure_new_position_X = gamefield_->COLUMNS + 2;
+    const int next_figure_new_position_Y = 2;
+    next_figure_->SetNewPosition(next_figure_new_position_X, next_figure_new_position_Y);
 }
 
 int32_t GameModel::CalculateRealPositionY() const
@@ -74,41 +76,23 @@ void GameModel::GenerateNextFigures()
 
 void GameModel::UpdateScore(const int32_t number_removed_lines)
 {
-    int32_t additional_score;
-
-    switch (number_removed_lines)
-    {
-    case 1:
-        additional_score = number_removed_lines * 100;
-        break;
-    case 2:
-        additional_score = number_removed_lines * 200;
-        break;
-    case 3:
-        additional_score = number_removed_lines * 300;
-        break;
-    case 4:
-        additional_score = number_removed_lines * 400;
-        break;
-    default:
-        additional_score = 0;
-        break;
-    }
+    const int32_t magic_number_score = 100;
+    const int32_t additional_score = number_removed_lines * number_removed_lines * magic_number_score;
 
     current_score_ += additional_score;
 
-    if (current_score_ >= speed_and_score.at(current_level_).second && current_level_ + 1 < speed_and_score.size())
+    if (current_score_ >= speed_and_score.at(current_level_).second && current_level_ < speed_and_score.size())
     {
         ++current_level_;
     }
 }
 
-int32_t GameModel::GetCurrentLevel() const
+size_t GameModel::GetCurrentLevel() const
 {
-    return static_cast<int32_t>(current_level_) + 1;
+    return current_level_;
 }
 
-int32_t GameModel::GetCurrentScore() const
+size_t GameModel::GetCurrentScore() const
 {
     return current_score_;
 }
@@ -125,7 +109,7 @@ int32_t GameModel::GetNeededScore() const
 
 Gamedata GameModel::GetGamedata() const
 {
-    return Gamedata(GetGamefield(), GetCurrentFigure(), GetNextFigure(), GetCurrentLevel(), GetCurrentScore());
+    return { gamefield_.get(), current_figure_.get(), next_figure_.get(), current_level_, current_score_ };
 }
 
 bool GameModel::GetIsGameover() const

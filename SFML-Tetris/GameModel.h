@@ -27,8 +27,8 @@ public:
     void       UpdateScore(const int32_t number_removed_lines);
     void       CheckEndGame();
 
-    int32_t GetCurrentLevel() const;
-    int32_t GetCurrentScore() const;
+    size_t  GetCurrentLevel() const;
+    size_t  GetCurrentScore() const;
     float   GetCurrentSpeed() const;
     int32_t GetNeededScore()  const;
     bool    GetIsGameover()   const;
@@ -44,12 +44,13 @@ private:
     std::unique_ptr<Figure>    current_figure_;
     std::unique_ptr<Figure>    next_figure_;
     
-    size_t  current_level_ = 0;
-    int32_t current_score_ = 0;
+    size_t  current_level_ = 1;
+    size_t  current_score_ = 0;
     bool    is_gameover_   = false;
 
     const std::vector<Speed_and_score> speed_and_score =
     {
+        Speed_and_score(0.0f, 0),
         Speed_and_score(2.0f, 2000),
         Speed_and_score(1.9f, 5000),
         Speed_and_score(1.8f, 7500),
