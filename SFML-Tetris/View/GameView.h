@@ -3,9 +3,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "UIPersistenceGameData.h"
-#include "Gamedata.h"
-#include "Gamefield.h"
-#include "Figure.h"
+#include "../Model/Gamedata.h"
+#include "../Model/Gamefield.h"
+#include "../Model/Figure.h"
 
 class GameView
 {
@@ -25,12 +25,12 @@ private:
     sf::Color GetNewColor(const int32_t value) const;
 
 private:
-    UIPersistenceGameData persistence_game_data_;
-    Gamedata              game_data_;
-    sf::RectangleShape    cell_;
-    sf::Font              font_;
-    sf::Text              current_level_;
-    sf::Text              current_score_;
+    UIPersistenceGameData m_persistence_game_data_;
+    Gamedata              m_game_data_;
+    sf::RectangleShape    m_cell_;
+    sf::Font              m_font_;
+    sf::Text              m_current_level_;
+    sf::Text              m_current_score_;
 
 };
 

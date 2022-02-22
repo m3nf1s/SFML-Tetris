@@ -7,10 +7,6 @@
 
 class Gamefield
 {
-private:
-    using Matrix_t = std::vector<std::vector<int32_t>>;
-    Matrix_t field_;
-    
 public:
     Gamefield();
 
@@ -22,4 +18,8 @@ public:
 public:
     static const int32_t COLUMNS = 10;
     static const int32_t ROWS    = 20;
+    
+private:
+    using Matrix_t = std::vector<std::vector<int32_t>>;
+    Matrix_t field_;
 };

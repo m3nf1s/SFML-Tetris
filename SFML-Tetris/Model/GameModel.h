@@ -8,11 +8,6 @@
 
 class GameModel
 {
-private:
-    using Speed_and_score = std::pair<float, int32_t>;
-    using Matrix_t = std::vector<std::vector<int32_t>>;
-    using FigureWithRotations = std::vector<Figure>;
-
 public:
     GameModel();
 
@@ -40,15 +35,23 @@ private:
     int32_t      CalculateRealPositionY() const;
 
 private:
-    std::unique_ptr<Gamefield> gamefield_;
-    std::unique_ptr<Figure>    current_figure_;
-    std::unique_ptr<Figure>    next_figure_;
+    std::unique_ptr<Gamefield> m_gamefield_;
+    std::unique_ptr<Figure>    m_current_figure_;
+    std::unique_ptr<Figure>    m_next_figure_;
     
-    size_t  current_level_ = 1;
-    size_t  current_score_ = 0;
-    bool    is_gameover_   = false;
+    size_t  m_current_level_ = 1;
+    size_t  m_current_score_ = 0;
+    bool    m_is_gameover_   = false;
+    
+    using Speed_and_score = std::pair<float, int32_t>;
+    using Matrix_t = std::vector<std::vector<int32_t>>;
+    using FigureWithRotations = std::vector<Figure>;
 
-    const std::vector<Speed_and_score> speed_and_score =
+    //EVENTS
+    int64_t m_handel_;
+    
+    //вай ай дид зис
+    const std::vector<Speed_and_score> m_speed_and_score =
     {
         Speed_and_score(0.0f, 0),
         Speed_and_score(2.0f, 2000),
@@ -73,7 +76,7 @@ private:
         Speed_and_score(0.1f, 50000)
     };
 
-    std::vector<FigureWithRotations> figures_ =
+    std::vector<FigureWithRotations> m_figures_ =
     {
         {
             Matrix_t(

@@ -23,7 +23,7 @@ public:
 
     int32_t Get(const int32_t row_index, const int32_t column_index) const;
     int32_t GetSize() const;
-    const Position& GetCurrentPosition()                                     const;
+    const Position& GetCurrentPosition()                             const;
 
 private:
     bool HasCollisionGamefield(const class Gamefield* gamefield) const;
@@ -33,6 +33,6 @@ private:
 
 
 private:
-    Matrix_t   figure_;
-    Position   current_position_;
+    Matrix_t   m_figure_;
+    Position   m_current_position_;
 };

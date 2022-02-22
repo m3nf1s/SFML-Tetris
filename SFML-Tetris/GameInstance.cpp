@@ -1,8 +1,9 @@
 #include "GameInstance.h"
 
-#include "GameModel.h"
-#include "GameView.h"
-#include "GameController.h"
+#include "Model/GameModel.h"
+#include "View/GameView.h"
+#include "Controller/GameController.h"
+#include "EventSystem/EventManager.h"
 
 GameInstance* GameInstance::GetGameInstance()
 {
@@ -12,7 +13,7 @@ GameInstance* GameInstance::GetGameInstance()
 
 void GameInstance::Start()
 {
-    Update(window_);
+    Update(m_window_);
 }
 
 GameInstance::~GameInstance()
@@ -20,12 +21,13 @@ GameInstance::~GameInstance()
 }
 
 GameInstance::GameInstance()
-    : model_      (std::make_unique<GameModel>())
-    , view_       (std::make_unique<GameView>(model_->GetGamedata()))
-    , controller_ (std::make_unique<GameController>(model_.get(), view_.get()))
-    , window_     (sf::VideoMode(
-                    view_->GetUIGameData().WINDOW_WIDTH,
-                    view_->GetUIGameData().WINDOW_HEIGHT), "Tetris", sf::Style::Titlebar | sf::Style::Close)
+    : m_event_manager_(EventManager::GetInstance())
+    , m_model_      (std::make_unique<GameModel>())
+    , m_view_       (std::make_unique<GameView>(m_model_->GetGamedata()))
+    , m_controller_ (std::make_unique<GameController>())
+    , m_window_     (sf::VideoMode(
+                    m_view_->GetUIGameData().WINDOW_WIDTH,
+                    m_view_->GetUIGameData().WINDOW_HEIGHT), "Tetris", sf::Style::Titlebar | sf::Style::Close)
 {
 }
 
@@ -33,6 +35,21 @@ void GameInstance::Update(sf::RenderWindow& window)
 {
     while (window.isOpen())
     {
-        controller_->PerformLogic(window);
+        sf::Event event;
+        while(window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
+            {
+                window.close();
+            }
+        }
+
+        if(!m_model_->GetIsGameover())
+        {
+            m_event_manager_->BroadcastGenerateNewFigres();
+            //m_event_manager_->BroadcastUpdateGamedata(m_model_->GetGamedata());
+            
+            m_view_->Render(window);
+        }
     }
 }
