@@ -3,14 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include "EventSystem/Event.h"
-#include "Model/Gamedata.h"
-
 class GameInstance 
 {
 public:
     static GameInstance* GetGameInstance();
-   
+    static class EventManager* GetEventManager();
+    
     void Start();
     
     GameInstance(GameInstance& other)                  = delete;
@@ -21,14 +19,13 @@ public:
     ~GameInstance();
 private:
     GameInstance();
-
-    void Update(sf::RenderWindow& window);
-    
+   
 private:
-    std::unique_ptr<class EventManager>   m_event_manager_;
     std::unique_ptr<class GameModel>      m_model_;
     std::unique_ptr<class GameView>       m_view_;
     std::unique_ptr<class GameController> m_controller_;
     sf::RenderWindow                      m_window_;
     sf::Clock                             m_clock_;
+    sf::Time                              m_timer_;    
+    float                                 m_current_speed_;
 };

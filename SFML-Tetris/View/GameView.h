@@ -31,6 +31,6 @@ private:
     sf::Font              m_font_;
     sf::Text              m_current_level_;
     sf::Text              m_current_score_;
-
+    int64_t               m_handle_update_gamedata_event_;
 };
 

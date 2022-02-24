@@ -3,8 +3,6 @@
 #include <vector>
 #include "Position.h"
 
-
-
 class Figure
 {
 private:
@@ -19,10 +17,10 @@ public:
     void MoveLeft(const class Gamefield* gamefield);
     void MoveRight(const class Gamefield* gamefield);
     void Rotate(const class Gamefield* gamefield);
-    bool MoveDown(const class Gamefield* gamefield);
+    void MoveDown(const class Gamefield* gamefield);
 
     int32_t Get(const int32_t row_index, const int32_t column_index) const;
-    int32_t GetSize() const;
+    int32_t GetSize()                                                const;
     const Position& GetCurrentPosition()                             const;
 
 private:
@@ -30,7 +28,6 @@ private:
     bool HasCollisionTop() const;
     bool HasCollisionLeftWall() const;
     bool HasCollisionRightWall() const;
-
 
 private:
     Matrix_t   m_figure_;

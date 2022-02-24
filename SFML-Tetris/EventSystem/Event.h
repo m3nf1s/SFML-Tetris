@@ -1,17 +1,8 @@
 ﻿#pragma once
+
 #include <unordered_map>
-#include <unordered_set>
 
 #include "Delegate.h"
-
-template<class Object, class... ParamArgs>
-struct DelegateHasher
-{
-    int64_t operator()(Delegate<Object, ParamArgs...> delegate) const
-    {
-        return delegate.ConvertAddressToInt();
-    }
-};
 
 template<class Object, class... ParamArgs>
 class Event
@@ -22,24 +13,25 @@ public:
 
     int64_t Subscribe(Delegate<Object, ParamArgs...> delegate)
     {
-        actions.insert(delegate);
-        return delegate.ConvertAddressToInt();
+        int64_t bucket_index = delegate.ConvertAddressToInt();
+        actions[bucket_index] = delegate;
+        return bucket_index;
     }
     
-    void Unsubscribe(Delegate<Object, ParamArgs...> delegate)
+    void Unsubscribe(const int64_t bucket_index)
     {
-        actions.erase(delegate);
+        actions.erase(bucket_index);
     }
     
     void Broadcast(ParamArgs... param_args)
-    {       
-        for(auto delegate : actions)
+    {
+        for(auto [bucket_id, action] : actions)
         {
-            delegate.Invoke(param_args...);
+            action.Invoke(param_args...);
         }
     }
     
 private:
-    using Callback = std::unordered_set<Delegate<Object, ParamArgs...>, DelegateHasher<Object, ParamArgs...>>;
-    Callback actions;
+    using Callbacks = std::unordered_map<int64_t, Delegate<Object, ParamArgs...>>;
+    Callbacks actions;
 };

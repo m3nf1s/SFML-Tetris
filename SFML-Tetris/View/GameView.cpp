@@ -1,8 +1,13 @@
 #include "GameView.h"
 #include <cstdint>
 
+#include "../EventSystem/EventManager.h"
+#include "../EventSystem/Delegate.h"
+#include "../GameInstance.h"
+
 GameView::GameView(const Gamedata& gamedata)
     : m_game_data_(gamedata)
+    , m_handle_update_gamedata_event_(GameInstance::GetEventManager()->SubscribeGameViewUpdateGamedata(Delegate<GameView, const Gamedata&>(this, &GameView::UpdateUIGamedata))) 
 {
     if (m_persistence_game_data_.CELL_SIZE != 0)
     {

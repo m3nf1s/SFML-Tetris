@@ -3,8 +3,6 @@
 #include <cstdint>
 #include <vector>
 
-
-
 class Gamefield
 {
 public:

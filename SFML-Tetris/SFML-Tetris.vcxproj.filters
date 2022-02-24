@@ -21,22 +21,22 @@
     <ClCompile Include="GameInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameView.cpp">
+    <ClCompile Include="EventSystem\EventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameController.cpp">
+    <ClCompile Include="Model\Figure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameModel.cpp">
+    <ClCompile Include="Model\Gamefield.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gamefield.cpp">
+    <ClCompile Include="Model\GameModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Figure.cpp">
+    <ClCompile Include="View\GameView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gamedata.cpp">
+    <ClCompile Include="GameController\GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,28 +44,40 @@
     <ClInclude Include="GameInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameView.h">
+    <ClInclude Include="EventSystem\Delegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameController.h">
+    <ClInclude Include="EventSystem\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameModel.h">
+    <ClInclude Include="EventSystem\EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UIPersistenceGameData.h">
+    <ClInclude Include="EventSystem\GameEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gamefield.h">
+    <ClInclude Include="Model\Figure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Figure.h">
+    <ClInclude Include="Model\Gamedata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Position.h">
+    <ClInclude Include="Model\Gamefield.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gamedata.h">
+    <ClInclude Include="Model\GameModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Position.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="View\GameView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="View\UIPersistenceGameData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController\GameController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

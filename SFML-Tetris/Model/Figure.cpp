@@ -1,5 +1,7 @@
 #include "Figure.h"
 #include "Gamefield.h"
+#include "../GameInstance.h"
+#include "../EventSystem/EventManager.h"
 
 Figure::Figure()
     : m_figure_(Matrix_t(0, std::vector<int32_t>(0)))
@@ -132,7 +134,7 @@ void Figure::MoveLeft(const Gamefield* gamefield)
     {
         m_current_position_.X = previous_position_X;
         return;
-    }
+    }   
 }
 
 void Figure::MoveRight(const Gamefield* gamefield)
@@ -184,7 +186,7 @@ void Figure::Rotate(const Gamefield* gamefield)
     }
 }
 
-bool Figure::MoveDown(const Gamefield* Gamefield)
+void Figure::MoveDown(const Gamefield* Gamefield)
 {
     const int32_t previous_position_Y = m_current_position_.Y;
     m_current_position_.Y += 1;
@@ -192,8 +194,7 @@ bool Figure::MoveDown(const Gamefield* Gamefield)
     if(HasCollisionGamefield(Gamefield))
     {
         m_current_position_.Y = previous_position_Y;
-        return true;
     }
 
-    return false;
+    //event generate collision
 }

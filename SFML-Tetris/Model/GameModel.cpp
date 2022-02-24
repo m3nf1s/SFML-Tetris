@@ -1,14 +1,16 @@
 #include <random>
 
 #include "GameModel.h"
+
+#include "../GameInstance.h"
 #include "../EventSystem/Delegate.h"
 #include "../EventSystem/EventManager.h"
 
 GameModel::GameModel()
     : m_gamefield_(std::make_unique<Gamefield>())
-    , m_handel_(EventManager::GetInstance()->SubscribeToGenerateNewFigures(Delegate<GameModel>(this, &GameModel::GenerateNextFigures)))
+    , m_handle_generate_new_figures_event_(GameInstance::GetEventManager()->SubscribeGameModelGenerateNewFigures(Delegate<GameModel>(this, &GameModel::GenerateNextFigures)))
 {
-    GenerateFigures();
+    GenerateNextFigures();
 }
 
 Figure GameModel::GetRandomFigure() const
@@ -73,8 +75,18 @@ int32_t GameModel::CalculateRealPositionY() const
 
 void GameModel::GenerateNextFigures()
 {
+    GameInstance::GetEventManager()->UnsubscribeFigureMoveLeft (m_handle_figure_move_left_event_);
+    GameInstance::GetEventManager()->UnsubscribeFigureMoveRight(m_handle_figure_move_right_event_);
+    GameInstance::GetEventManager()->UnsubscribeFigureMoveDown (m_handle_figure_move_down_event);
+    GameInstance::GetEventManager()->UnsubscribeFigureRotate   (m_handle_figure_rotate_event);
+    
     m_current_figure_ = std::move(m_next_figure_);
     GenerateFigures();
+
+    m_handle_figure_move_left_event_  = GameInstance::GetEventManager()->SubscribeFigureMoveLeft (Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::MoveLeft));
+    m_handle_figure_move_right_event_ = GameInstance::GetEventManager()->SubscribeFigureMoveRight(Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::MoveRight));
+    m_handle_figure_move_down_event   = GameInstance::GetEventManager()->SubscribeFigureMoveDown (Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::MoveDown));
+    m_handle_figure_rotate_event      = GameInstance::GetEventManager()->SubscribeFigureRotate   (Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::Rotate));
 }
 
 void GameModel::UpdateScore(const int32_t number_removed_lines)

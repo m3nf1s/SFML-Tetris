@@ -3,7 +3,7 @@
 template<class Object, class... ParamArgs>
 class Delegate
 {
-    using PtrFucn = void(Object::*)(const ParamArgs&...);
+    using PtrFucn = void(Object::*)(const ParamArgs...);
 public:
     Delegate() = default;
     

@@ -48,7 +48,11 @@ private:
     using FigureWithRotations = std::vector<Figure>;
 
     //EVENTS
-    int64_t m_handel_;
+    int64_t m_handle_generate_new_figures_event_;
+    int64_t m_handle_figure_move_left_event_;
+    int64_t m_handle_figure_move_right_event_;
+    int64_t m_handle_figure_move_down_event;
+    int64_t m_handle_figure_rotate_event;
     
     //вай ай дид зис
     const std::vector<Speed_and_score> m_speed_and_score =
