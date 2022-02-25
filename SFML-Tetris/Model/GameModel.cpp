@@ -85,7 +85,6 @@ void GameModel::GenerateNextFigures()
 
     m_handle_figure_move_left_event_  = GameInstance::GetEventManager()->SubscribeFigureMoveLeft (Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::MoveLeft));
     m_handle_figure_move_right_event_ = GameInstance::GetEventManager()->SubscribeFigureMoveRight(Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::MoveRight));
-    m_handle_figure_move_down_event   = GameInstance::GetEventManager()->SubscribeFigureMoveDown (Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::MoveDown));
     m_handle_figure_rotate_event      = GameInstance::GetEventManager()->SubscribeFigureRotate   (Delegate<Figure, const Gamefield*>(m_current_figure_.get(), &Figure::Rotate));
 }
 

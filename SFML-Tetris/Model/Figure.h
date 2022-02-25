@@ -17,7 +17,7 @@ public:
     void MoveLeft(const class Gamefield* gamefield);
     void MoveRight(const class Gamefield* gamefield);
     void Rotate(const class Gamefield* gamefield);
-    void MoveDown(const class Gamefield* gamefield);
+    bool MoveDown(const class Gamefield* gamefield);
 
     int32_t Get(const int32_t row_index, const int32_t column_index) const;
     int32_t GetSize()                                                const;

@@ -15,6 +15,8 @@ public:
     GameInstance(GameInstance&& other)                 = delete;
     GameInstance& operator=(const GameInstance& other) = delete;
     GameInstance& operator=(GameInstance&& other)      = delete;
+    
+    void ReactGameCollision();
 
     ~GameInstance();
 private:

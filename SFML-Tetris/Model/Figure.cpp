@@ -186,7 +186,7 @@ void Figure::Rotate(const Gamefield* gamefield)
     }
 }
 
-void Figure::MoveDown(const Gamefield* Gamefield)
+bool Figure::MoveDown(const Gamefield* Gamefield)
 {
     const int32_t previous_position_Y = m_current_position_.Y;
     m_current_position_.Y += 1;
@@ -194,7 +194,9 @@ void Figure::MoveDown(const Gamefield* Gamefield)
     if(HasCollisionGamefield(Gamefield))
     {
         m_current_position_.Y = previous_position_Y;
+        return true;
     }
 
+    return false;
     //event generate collision
 }

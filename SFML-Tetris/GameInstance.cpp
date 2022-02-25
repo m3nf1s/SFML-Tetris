@@ -1,5 +1,7 @@
 #include "GameInstance.h"
 
+#include <cassert>
+
 #include "Model/GameModel.h"
 #include "View/GameView.h"
 #include "GameController/GameController.h"
@@ -15,6 +17,11 @@ GameInstance::GameInstance()
     , m_current_speed_(m_model_->GetCurrentSpeed())
 {
     m_window_.setFramerateLimit(30);
+}
+
+void GameInstance::ReactGameCollision()
+{
+
 }
 
 GameInstance::~GameInstance()
@@ -54,7 +61,24 @@ void GameInstance::Start()
 
             if (m_timer_.asSeconds() > m_current_speed_)
             {
-                GetEventManager()->BroadcastFigureMoveDown(m_model_->GetGamefield());
+                Gamefield* gamefield = m_model_->GetGamefield();
+                Figure*    current_figure = m_model_->GetCurrentFigure();
+                assert(gamefield != nullptr);
+                assert(current_figure != nullptr);
+
+                const bool has_collision = current_figure->MoveDown(gamefield);
+
+                if (has_collision)
+                {
+                    gamefield->PlaceFigure(current_figure);
+                    int32_t removedLines = gamefield->RemoveLines();
+                    m_model_->GenerateNextFigures();
+                    m_model_->UpdateScore(removedLines);
+                    m_view_->UpdateUIGamedata(m_model_->GetGamedata());
+                    m_model_->CheckEndGame();
+                    m_current_speed_ = m_model_->GetCurrentSpeed();
+                }
+
                 m_clock_.restart();
             }
         }
